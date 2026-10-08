@@ -8,7 +8,7 @@
   },
   "type": "commonjs",
   "scripts": {
-    "build": "tsc && chmod 755 dist/cli.js",
+    "build": "tsc && node -e \"if (process.platform !== 'win32') { try { require('fs').chmodSync('dist/cli.js', 0o755); } catch {} }\"",
     "dev": "ts-node src/cli.ts",
     "test": "vitest run --passWithNoTests",
     "typecheck": "tsc --noEmit"
