@@ -1,0 +1,19 @@
+#!/bin/sh
+
+echo ""
+echo "🔐 Snift scanning..."
+echo ""
+
+snift scan --staged
+
+STATUS=$?
+
+if [ $STATUS -ne 0 ]; then
+  echo ""
+  echo "❌ Snift blocked this commit."
+  exit 1
+fi
+
+echo ""
+echo "✓ Snift passed."
+exit 0
