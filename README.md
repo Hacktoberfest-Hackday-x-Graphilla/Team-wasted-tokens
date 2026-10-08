@@ -26,3 +26,14 @@ Deterministic scanners find suspicious candidates first. Gemma then analyzes the
 - `snift scan` — scan the working tree
 - `snift scan --staged` — scan staged changes (used by the hook)
 - `snift install` — install the Git pre-commit hook (backs up existing hooks)
+
+## Git Pre-Commit Hook Installation
+
+Install the pre-commit hook into your Git repository:
+
+```bash
+snift install
+```
+
+Installs a Git pre-commit hook that runs Snift against staged changes (`snift scan --staged`) before every commit.
+If an existing pre-commit hook is present, it is safely backed up to `.git/hooks/pre-commit.snift-backup`.

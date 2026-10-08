@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import { Command } from "commander";
+import { installPreCommitHook, HookInstallError } from "./hook/install";
+import { printInstallSuccess, printInstallError } from "./hook/ui";
 
 const program = new Command();
 
@@ -19,9 +21,21 @@ program
 program
   .command("install")
   .description("Install the Git pre-commit hook")
-  .action(() => {
-    console.log("install: not implemented yet");
+  .option("-f, --force", "Force installation even if hook is already installed")
+  .action(async (options) => {
+    try {
+      const result = await installPreCommitHook({ force: options.force });
+      printInstallSuccess(result);
+      process.exit(0);
+    } catch (err: unknown) {
+      if (err instanceof HookInstallError) {
+        printInstallError(err);
+      } else {
+        const message = err instanceof Error ? err.message : String(err);
+        printInstallError(new HookInstallError(message, "FS_ERROR"));
+      }
+      process.exit(2);
+    }
   });
-
 
 program.parse(process.argv);
